@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemesh>
+    <mapping path="/*" decorator="home-layout.jsp"/>
+    <mapping path="/admin/*" decorator="admin-layout.jsp"/>
+    <mapping path="/assets/*" exclude="true"/>
+    <mapping path="/webjars/*" exclude="true"/>
+    <mapping path="/admin/webjars/*" exclude="true"/>
+</sitemesh>
