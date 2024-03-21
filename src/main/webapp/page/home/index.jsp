@@ -8,6 +8,18 @@
 <title>Home page</title>
 <body>
     <header>
-        <%@ include file="/c"%>
+        <%@ include file="/component/header.jsp"%>
     </header>
+    <%@ include file="/component/home/banner.jsp"%>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1>Home page</h1>
+            </div>
+        </div>
+
+    <footer>
+        <%@ include file="/component/footer.jsp"%>
+    </footer>
 </body>
