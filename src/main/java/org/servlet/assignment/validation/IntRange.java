@@ -11,9 +11,9 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = SizePropertyRangeValidator.class)
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface SizePropertyRange {
+public @interface IntRange {
 
-    String message() default "Width and height invalid";
+    String message() default "The field must be an integer between {min} and {max}";
 
     Class<?>[] groups() default {};
 
@@ -23,5 +23,5 @@ public @interface SizePropertyRange {
 
     int min() default 0;
 
-    int max() default 0;
+    int max() default Integer.MAX_VALUE;
 }

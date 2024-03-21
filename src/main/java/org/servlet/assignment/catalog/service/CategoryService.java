@@ -11,4 +11,8 @@ public class CategoryService {
     public List<Category> findAllCategory(int limit, int offset) {
         return categoryDao.findAll(limit, offset);
     }
+
+    public Category findById(long id) {
+        return categoryDao.findById(id);
+    }
 }

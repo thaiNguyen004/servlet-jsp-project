@@ -2,6 +2,7 @@ package org.servlet.assignment.catalog.dao.impl;
 
 import jakarta.persistence.NoResultException;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.servlet.assignment.catalog.Category;
 import org.servlet.assignment.catalog.dao.Dao;
@@ -47,17 +48,17 @@ public class CategoryDao implements Dao<Category, Long> {
     }
 
     @Override
-    public Category save(Category entity) {
+    public void save(Category entity) {
         Session session = HibernateUtils.getSessionFactory().openSession();
-        Category saved = null;
         try {
-            saved = (Category) session.save(entity);
+            Transaction transaction = session.beginTransaction();
+            session.persist(entity);
+            transaction.commit();
         } catch (NoResultException ex) {
             logger.error("an error occurred at " + this.getClass());
         } finally {
             session.close();
         }
-        return saved;
     }
 
     @Override

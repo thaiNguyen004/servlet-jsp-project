@@ -3,13 +3,19 @@ package org.servlet.assignment.validation;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class IntRangeValidator implements ConstraintValidator<IntRange, String> {
+public class SizePropertyRangeValidator implements ConstraintValidator<IntRange, String> {
 
     private static String fieldName;
+    private static int min;
+    private static int max;
+    private static String message;
 
     @Override
     public void initialize(IntRange constraintAnnotation) {
         fieldName = constraintAnnotation.fieldName();
+        min = constraintAnnotation.min();
+        max = constraintAnnotation.max();
+        message = "The " + fieldName + " must be an integer between " + min + " and " + max;
     }
 
     @Override
@@ -18,36 +24,20 @@ public class IntRangeValidator implements ConstraintValidator<IntRange, String> 
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate("The " + fieldName + " must not be null").addConstraintViolation();
             return false;
-        }
-        switch (fieldName) {
-            case "width":
-                context.disableDefaultConstraintViolation();
-                context.buildConstraintViolationWithTemplate("Width must be an integer between 45 and 60").addConstraintViolation();
-                return isWidthValid(str);
-            case "length":
-                context.disableDefaultConstraintViolation();
-                context.buildConstraintViolationWithTemplate("Length must be an integer between 63 and 76").addConstraintViolation();
-                return isLengthValid(str);
-            default:
-                return false;
+        } else {
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate(message).addConstraintViolation();
+            return isNumberValid(str);
         }
     }
 
-    public boolean isWidthValid(String widthStr) {
+    public boolean isNumberValid(String widthStr) {
         try {
-            int width = Integer.parseInt(widthStr);
-            return width >= 45 && width <= 60;
+            int number = Integer.parseInt(widthStr);
+            return number >= min && number <= max;
         } catch (NumberFormatException e) {
             return false;
         }
     }
 
-    public boolean isLengthValid(String lengthStr) {
-        try {
-            int length = Integer.parseInt(lengthStr);
-            return length >= 63 && length <= 76;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
 }

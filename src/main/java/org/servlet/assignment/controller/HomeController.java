@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.servlet.assignment.catalog.Product;
 
 import java.io.IOException;
 
@@ -17,7 +18,7 @@ public class HomeController extends HttpServlet {
         if (uri.equals("/")) {
             resp.sendRedirect("/home");
         } else {
-            req.getRequestDispatcher("/page/home.jsp").forward(req, resp);
+            req.getRequestDispatcher("/page/home/index.jsp").forward(req, resp);
         }
     }
 }
