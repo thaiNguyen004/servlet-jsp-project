@@ -1,6 +1,7 @@
 package org.servlet.assignment.catalog;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "The name of the category must not be null")
     private String name;
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private List<Product> products = new ArrayList<>();

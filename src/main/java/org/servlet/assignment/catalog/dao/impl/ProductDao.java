@@ -34,6 +34,23 @@ public class ProductDao implements Dao<Product, Long> {
         return products;
     }
 
+    public List<Product> findAllByCategoryId(long categoryId, int limit, int offset) {
+        Session session = HibernateUtils.getSessionFactory().openSession();
+        Query<Product> query = session.createQuery("FROM Product WHERE category.id = :categoryId", Product.class);
+        List<Product> products = null;
+        try {
+            Transaction transaction = session.beginTransaction();
+            query.setParameter("categoryId", categoryId);
+            products = query.setFirstResult(offset).setMaxResults(limit).getResultList();
+            transaction.commit();
+        } catch (NoResultException ex) {
+            logger.error("an error occurred at " + this.getClass());
+        } finally {
+            session.close();
+        }
+        return products;
+    }
+
     public List<Picture> findAllPicturesByProductId(Long id, int offset, int limit) {
         Session session = HibernateUtils.getSessionFactory().openSession();
         Query<Picture> query = session.createQuery("FROM Picture p WHERE p.product.id = :id", Picture.class);
