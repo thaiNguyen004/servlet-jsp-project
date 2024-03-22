@@ -3,7 +3,7 @@ package org.servlet.assignment.validation;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class SizePropertyRangeValidator implements ConstraintValidator<IntRange, String> {
+public class IntRangeValidator implements ConstraintValidator<IntRange, String> {
 
     private static String fieldName;
     private static int min;

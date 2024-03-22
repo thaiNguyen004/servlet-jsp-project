@@ -8,4 +8,5 @@ public interface Dao <T, ID> {
     public T findById(ID id);
     public void save(T entity);
     public void updateById(T patch, ID id);
+    public void deleteById(ID id);
 }

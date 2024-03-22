@@ -33,6 +33,7 @@ public class Category {
     private Date createdAt;
     @Column(name = "updated_at")
     private Date updatedAt;
+    private boolean isDeleted = false;
 
     @PreUpdate
     private void updateTime() {

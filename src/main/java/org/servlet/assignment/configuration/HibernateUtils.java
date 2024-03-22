@@ -6,9 +6,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 import org.servlet.assignment.catalog.Category;
-import org.servlet.assignment.catalog.Picture;
 import org.servlet.assignment.catalog.Product;
-import org.servlet.assignment.catalog.ProductSize;
 import org.servlet.assignment.order.LineItem;
 import org.servlet.assignment.order.Order;
 import org.servlet.assignment.order.Payment;
@@ -29,12 +27,11 @@ public class HibernateUtils {
         properties.put(Environment.PASS, "123456");
         properties.put(Environment.SHOW_SQL, true);
         properties.put(Environment.JAKARTA_HBM2DDL_DATABASE_ACTION, "drop-and-create");
+        properties.put(Environment.ENABLE_LAZY_LOAD_NO_TRANS, true);
         properties.put(Environment.JAKARTA_HBM2DDL_LOAD_SCRIPT_SOURCE, "data.sql");
 
         conf.setProperties(properties);
         conf.addAnnotatedClass(Product.class);
-        conf.addAnnotatedClass(ProductSize.class);
-        conf.addAnnotatedClass(Picture.class);
         conf.addAnnotatedClass(User.class);
         conf.addAnnotatedClass(Address.class);
         conf.addAnnotatedClass(Order.class);

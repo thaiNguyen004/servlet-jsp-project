@@ -1,10 +1,8 @@
 package org.servlet.assignment.catalog.dao.impl;
 
-import jakarta.persistence.NoResultException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import org.servlet.assignment.catalog.Picture;
 import org.servlet.assignment.catalog.Product;
 import org.servlet.assignment.catalog.dao.Dao;
 import org.servlet.assignment.configuration.HibernateUtils;
@@ -20,13 +18,13 @@ public class ProductDao implements Dao<Product, Long> {
     @Override
     public List<Product> findAll(int limit, int offset) {
         Session session = HibernateUtils.getSessionFactory().openSession();
-        Query<Product> query = session.createQuery("FROM Product", Product.class);
+        Query<Product> query = session.createQuery("FROM Product where isDeleted = false", Product.class);
         List<Product> products = null;
         try {
             Transaction transaction = session.beginTransaction();
             products = query.setFirstResult(offset).setMaxResults(limit).getResultList();
             transaction.commit();
-        } catch (NoResultException ex) {
+        } catch (Exception ex) {
             logger.error("an error occurred at " + this.getClass());
         } finally {
             session.close();
@@ -36,14 +34,14 @@ public class ProductDao implements Dao<Product, Long> {
 
     public List<Product> findAllByCategoryId(long categoryId, int limit, int offset) {
         Session session = HibernateUtils.getSessionFactory().openSession();
-        Query<Product> query = session.createQuery("FROM Product WHERE category.id = :categoryId", Product.class);
+        Query<Product> query = session.createQuery("FROM Product WHERE category.id = :categoryId and isDeleted = false", Product.class);
         List<Product> products = null;
         try {
             Transaction transaction = session.beginTransaction();
             query.setParameter("categoryId", categoryId);
             products = query.setFirstResult(offset).setMaxResults(limit).getResultList();
             transaction.commit();
-        } catch (NoResultException ex) {
+        } catch (Exception ex) {
             logger.error("an error occurred at " + this.getClass());
         } finally {
             session.close();
@@ -51,30 +49,15 @@ public class ProductDao implements Dao<Product, Long> {
         return products;
     }
 
-    public List<Picture> findAllPicturesByProductId(Long id, int offset, int limit) {
-        Session session = HibernateUtils.getSessionFactory().openSession();
-        Query<Picture> query = session.createQuery("FROM Picture p WHERE p.product.id = :id", Picture.class);
-        query.setParameter("id", id);
-        List<Picture> pictures = null;
-        try {
-            pictures = query.setFirstResult(offset).setMaxResults(limit).getResultList();
-        } catch (NoResultException e) {
-            logger.error("an error occurred at " + this.getClass());
-        } finally {
-            session.close();
-        }
-        return pictures;
-    }
-
     @Override
     public Product findById(Long id) {
         Session session = HibernateUtils.getSessionFactory().openSession();
-        Query<Product> query = session.createQuery("FROM Product c WHERE c.id = :id", Product.class);
+        Query<Product> query = session.createQuery("FROM Product c WHERE c.id = :id and c.isDeleted = false", Product.class);
         query.setParameter("id", id);
         Product product = null;
         try {
             product = query.getSingleResult();
-        } catch (NoResultException e) {
+        } catch (Exception e) {
             logger.error("an error occurred at " + this.getClass());
         } finally {
             session.close();
@@ -89,7 +72,7 @@ public class ProductDao implements Dao<Product, Long> {
             Transaction transaction = session.beginTransaction();
             session.persist(entity);
             transaction.commit();
-        } catch (NoResultException ex) {
+        } catch (Exception ex) {
             logger.error("an error occurred at " + this.getClass());
         } finally {
             session.close();
@@ -103,7 +86,23 @@ public class ProductDao implements Dao<Product, Long> {
             session.get(Product.class, aLong);
             patch.setId(aLong);
             session.save(patch);
-        } catch (NoResultException ex) {
+        } catch (Exception ex) {
+            logger.error("an error occurred at " + this.getClass());
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        Session session = HibernateUtils.getSessionFactory().openSession();
+        try {
+            Transaction transaction = session.beginTransaction();
+            Product product = session.get(Product.class, id);
+            product.setDeleted(true);
+            session.persist(product);
+            transaction.commit();
+        } catch (Exception ex) {
             logger.error("an error occurred at " + this.getClass());
         } finally {
             session.close();

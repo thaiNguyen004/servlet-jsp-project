@@ -15,11 +15,12 @@ import java.util.List;
 public class CategoryDao implements Dao<Category, Long> {
 
     private static final Logger logger = LoggerFactory.getLogger(CategoryDao.class);
+    private ProductDao productDao = new ProductDao();
 
     @Override
     public List<Category> findAll(int limit, int offset) {
         Session session = HibernateUtils.getSessionFactory().openSession();
-        Query<Category> query = session.createQuery("FROM Category", Category.class);
+        Query<Category> query = session.createQuery("FROM Category where isDeleted = false", Category.class);
         List<Category> categories = null;
         try {
             categories = query.setFirstResult(offset).setMaxResults(limit).getResultList();
@@ -34,7 +35,7 @@ public class CategoryDao implements Dao<Category, Long> {
     @Override
     public Category findById(Long id) {
         Session session = HibernateUtils.getSessionFactory().openSession();
-        Query<Category> query = session.createQuery("FROM Category c WHERE c.id = :id", Category.class);
+        Query<Category> query = session.createQuery("FROM Category c WHERE c.id = :id and c.isDeleted = false", Category.class);
         query.setParameter("id", id);
         Category category = null;
         try {
@@ -68,6 +69,22 @@ public class CategoryDao implements Dao<Category, Long> {
             session.get(Category.class, aLong);
             patch.setId(aLong);
             session.save(patch);
+        } catch (NoResultException ex) {
+            logger.error("an error occurred at " + this.getClass());
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public void deleteById(Long aLong) {
+        Session session = HibernateUtils.getSessionFactory().openSession();
+        try {
+            Transaction transaction = session.beginTransaction();
+            Category category = session.get(Category.class, aLong);
+            category.setDeleted(true);
+            session.persist(category);
+            transaction.commit();
         } catch (NoResultException ex) {
             logger.error("an error occurred at " + this.getClass());
         } finally {
