@@ -1,4 +1,4 @@
-package org.servlet.assignment.generic.servlet;
+package org.servlet.assignment.catalog.controller.admin;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -22,7 +22,7 @@ public class ProductServlet extends GenericServlet<Product> {
     private CategoryService categoryService = new CategoryService();
 
     public ProductServlet() {
-        super(new GenericDao<>(Product.class));
+        super(new GenericDao<>());
     }
 
     @Override

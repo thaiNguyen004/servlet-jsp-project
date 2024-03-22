@@ -1,4 +1,4 @@
-package org.servlet.assignment.generic.servlet;
+package org.servlet.assignment.catalog.controller.admin;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
