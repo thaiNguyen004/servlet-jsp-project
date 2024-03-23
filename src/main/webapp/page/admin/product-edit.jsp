@@ -6,7 +6,7 @@
   Time: 1:06 SA
   To change this template use File | Settings | File Templates.
 --%>
-<title>Product management</title>
+<title>Product update</title>
 <body>
 
 <header>

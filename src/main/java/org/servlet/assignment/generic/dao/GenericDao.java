@@ -3,7 +3,8 @@ package org.servlet.assignment.generic.dao;
 import org.hibernate.Session;
 import org.servlet.assignment.configuration.HibernateUtils;
 
-public class GenericDao <T> {
+public abstract class GenericDao <T> implements Dao<T, Long> {
+
     public void save(T entity) {
         try {
             Session session = HibernateUtils.getSessionFactory().openSession();
@@ -14,4 +15,5 @@ public class GenericDao <T> {
             e.printStackTrace();
         }
     }
+
 }

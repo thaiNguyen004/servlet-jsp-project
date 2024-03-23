@@ -8,20 +8,17 @@
 <nav>
     <ul class="nav nav-pills">
         <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/admin/product">Product</a>
+            <a class="nav-link" href="/admin/product">Product</a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/admin/category">Category</a>
+            <a class="nav-link" href="/admin/category">Category</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link" href="/admin/user">User</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            <a class="nav-link" href="/admin/order">Order</a>
         </li>
     </ul>
 </nav>

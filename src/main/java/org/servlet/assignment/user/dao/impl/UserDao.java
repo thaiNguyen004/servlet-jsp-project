@@ -1,77 +1,73 @@
-package org.servlet.assignment.catalog.dao.impl;
+package org.servlet.assignment.user.dao.impl;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import org.servlet.assignment.catalog.Product;
-import org.servlet.assignment.generic.dao.Dao;
 import org.servlet.assignment.configuration.HibernateUtils;
+import org.servlet.assignment.generic.dao.Dao;
 import org.servlet.assignment.generic.dao.GenericDao;
+import org.servlet.assignment.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-public class ProductDao extends GenericDao<Product> implements Dao<Product, Long> {
-
-    private static final Logger logger = LoggerFactory.getLogger(ProductDao.class);
+public class UserDao extends GenericDao<User> implements Dao<User, Long> {
+    private static final Logger logger = LoggerFactory.getLogger(UserDao.class);
 
     @Override
-    public List<Product> findAll(int limit, int offset) {
+    public List<User> findAll(int limit, int offset) {
         Session session = HibernateUtils.getSessionFactory().openSession();
-        Query<Product> query = session.createQuery("FROM Product where isDeleted = false", Product.class);
-        List<Product> products = null;
+        Query<User> query = session.createQuery("FROM User where isLocked = false and isDeleted = false", User.class);
+        List<User> users = null;
         try {
             Transaction transaction = session.beginTransaction();
-            products = query.setFirstResult(offset).setMaxResults(limit).getResultList();
+            users = query.setFirstResult(offset).setMaxResults(limit).getResultList();
             transaction.commit();
         } catch (Exception ex) {
             logger.error("an error occurred at " + this.getClass());
         } finally {
             session.close();
         }
-        return products;
-    }
-
-    public List<Product> findAllByCategoryId(long categoryId, int limit, int offset) {
-        Session session = HibernateUtils.getSessionFactory().openSession();
-        Query<Product> query = session.createQuery("FROM Product WHERE category.id = :categoryId and isDeleted = false", Product.class);
-        List<Product> products = null;
-        try {
-            Transaction transaction = session.beginTransaction();
-            query.setParameter("categoryId", categoryId);
-            products = query.setFirstResult(offset).setMaxResults(limit).getResultList();
-            transaction.commit();
-        } catch (Exception ex) {
-            logger.error("an error occurred at " + this.getClass());
-        } finally {
-            session.close();
-        }
-        return products;
+        return users;
     }
 
     @Override
-    public Product findById(Long id) {
+    public User findById(Long aLong) {
         Session session = HibernateUtils.getSessionFactory().openSession();
-        Query<Product> query = session.createQuery("FROM Product c WHERE c.id = :id and c.isDeleted = false", Product.class);
-        query.setParameter("id", id);
-        Product product = null;
+        Query<User> query = session.createQuery("FROM User u WHERE u.id = :id and isLocked = false and isDeleted = false", User.class);
+        query.setParameter("id", aLong);
+        User user = null;
         try {
-            product = query.getSingleResult();
+            user = query.getSingleResult();
         } catch (Exception e) {
             logger.error("an error occurred at " + this.getClass());
         } finally {
             session.close();
         }
-        return product;
+        return user;
     }
 
+    public User findByUsername(String username) {
+        Session session = HibernateUtils.getSessionFactory().openSession();
+        Query<User> query = session.createQuery("FROM User u WHERE u.username = :username and isLocked = false and isDeleted = false", User.class);
+        query.setParameter("username", username);
+        User user = null;
+        try {
+            user = query.getSingleResult();
+        } catch (Exception e) {
+            logger.error("an error occurred at " + this.getClass());
+        } finally {
+            session.close();
+        }
+        return user;
+    }
 
     @Override
-    public void updateById(Product patch, Long aLong) {
+    public void updateById(User patch, Long aLong) {
         Session session = HibernateUtils.getSessionFactory().openSession();
         try {
-            session.get(Product.class, aLong);
+            session.get(User.class, aLong);
             patch.setId(aLong);
             session.save(patch);
         } catch (Exception ex) {
@@ -82,13 +78,13 @@ public class ProductDao extends GenericDao<Product> implements Dao<Product, Long
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(Long aLong) {
         Session session = HibernateUtils.getSessionFactory().openSession();
         try {
             Transaction transaction = session.beginTransaction();
-            Product product = session.get(Product.class, id);
-            product.setDeleted(true);
-            session.persist(product);
+            User user = session.get(User.class, aLong);
+            user.setDeleted(true);
+            session.persist(user);
             transaction.commit();
         } catch (Exception ex) {
             logger.error("an error occurred at " + this.getClass());

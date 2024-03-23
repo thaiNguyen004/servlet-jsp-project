@@ -69,6 +69,8 @@
                     <th>Name</th>
                     <th>Price</th>
                     <th>Size name</th>
+                    <td>Created at</td>
+                    <td>Updated at</td>
                     <th>Category name</th>
                     <th>Action</th>
                 </tr>
@@ -80,6 +82,8 @@
                         <td>${product.name}</td>
                         <td>${product.price}</td>
                         <td>${product.size}</td>
+                        <td>${product.createdAt}</td>
+                        <td>${product.updatedAt}</td>
                         <td><a href="/admin/view/category?id=${product.category.id}">${product.category.name}</a></td>
                         <td>
                             <a href="/admin/product/edit?id=${product.id}" class="btn btn-warning">Edit</a>

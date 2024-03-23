@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.servlet.assignment.catalog.Category;
 import org.servlet.assignment.catalog.Product;
+import org.servlet.assignment.catalog.dao.impl.ProductDao;
 import org.servlet.assignment.catalog.service.CategoryService;
 import org.servlet.assignment.catalog.service.ProductService;
 import org.servlet.assignment.generic.dao.GenericDao;
@@ -22,7 +23,7 @@ public class ProductServlet extends GenericServlet<Product> {
     private CategoryService categoryService = new CategoryService();
 
     public ProductServlet() {
-        super(new GenericDao<>());
+        super(new ProductDao());
     }
 
     @Override

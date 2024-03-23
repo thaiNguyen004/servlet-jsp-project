@@ -14,10 +14,6 @@ public class ProductService {
         return productDao.findAll(limit, offset);
     }
 
-    public void create(Product product) {
-        productDao.save(product);
-    }
-
     public Product findById(Long id) {
         return productDao.findById(id);
     }

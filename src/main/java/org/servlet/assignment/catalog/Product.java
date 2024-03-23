@@ -34,7 +34,6 @@ public class Product {
     private String price;
 
     @ManyToOne
-    @NotNull(message = "The category of the product must not be null")
     private Category category;
 
     private boolean isDeleted = false;

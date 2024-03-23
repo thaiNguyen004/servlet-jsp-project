@@ -23,7 +23,11 @@ public class CategoryService {
         return productDao.findAllByCategoryId(categoryId, limit, offset);
     }
 
-    public void create(Category category) {
-        categoryDao.save(category);
+    public void deleteById(Long id) {
+        categoryDao.deleteById(id);
+    }
+
+    public void deleteProduct(Long productId, Long categoryId) {
+        categoryDao.deleteProductById(productId, categoryId);
     }
 }
