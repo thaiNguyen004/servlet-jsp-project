@@ -22,7 +22,7 @@ public abstract class GenericServlet<T> extends HttpServlet {
             , HttpServletResponse response, T entity)
             throws IOException;
 
-    abstract void processDoGet(HttpServletRequest req
+    protected abstract void processDoGet(HttpServletRequest req
             , HttpServletResponse resp)
             throws ServletException, IOException;
 

@@ -21,7 +21,35 @@ public class UserService {
         userDao.deleteById(id);
     }
 
+    public User authenticate(String username, String password) {
+        User user = userDao.findByUsername(username);
+        if (user != null && user.getPassword().equals(password)) {
+            return user;
+        }
+        return null;
+    }
+
+    public User findByUsername(String username) {
+        return userDao.findByUsername(username);
+    }
+
     public boolean existsByUsername(String username) {
         return userDao.findByUsername(username) != null;
+    }
+
+    public void lockUser(Long id) {
+        userDao.lockUserById(id);
+    }
+
+    public void unLockUser(Long id) {
+        userDao.unlockUserById(id);
+    }
+
+    public void deactivateUser(Long id) {
+        userDao.deactivateUserById(id);
+    }
+
+    public void activateUser(Long id) {
+        userDao.activateUserById(id);
     }
 }

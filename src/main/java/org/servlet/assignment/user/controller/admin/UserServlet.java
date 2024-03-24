@@ -15,7 +15,10 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(value = {"/admin/user", "/admin/user/edit", "/admin/user/update", "/admin/user/delete"})
+@WebServlet(value = {"/admin/user", "/admin/user/edit"
+        , "/admin/user/update", "/admin/user/delete"
+        , "/admin/user/lock", "/admin/user/unlock"
+        ,"/admin/user/deactivate", "/admin/user/activate"})
 public class UserServlet extends GenericUserServlet<User> {
 
     private UserService userService = new UserService();
@@ -39,6 +42,22 @@ public class UserServlet extends GenericUserServlet<User> {
         } else if (uri.equals("/admin/user/delete")) {
             Long id = Long.parseLong(req.getParameter("id"));
             userService.deleteById(id);
+            resp.sendRedirect("/admin/user");
+        } else if (uri.equals("/admin/user/lock")) {
+            Long id = Long.parseLong(req.getParameter("id"));
+            userService.lockUser(id);
+            resp.sendRedirect("/admin/user");
+        } else if (uri.equals("/admin/user/unlock")) {
+            Long id = Long.parseLong(req.getParameter("id"));
+            userService.unLockUser(id);
+            resp.sendRedirect("/admin/user");
+        } else if (uri.equals("/admin/user/deactivate")) {
+            Long id = Long.parseLong(req.getParameter("id"));
+            userService.deactivateUser(id);
+            resp.sendRedirect("/admin/user");
+        } else if (uri.equals("/admin/user/activate")) {
+            Long id = Long.parseLong(req.getParameter("id"));
+            userService.activateUser(id);
             resp.sendRedirect("/admin/user");
         }
     }

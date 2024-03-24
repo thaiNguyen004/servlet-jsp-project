@@ -7,8 +7,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.servlet.assignment.catalog.Category;
 import org.servlet.assignment.catalog.dao.impl.CategoryDao;
 import org.servlet.assignment.catalog.service.CategoryService;
-import org.servlet.assignment.catalog.service.ProductService;
-import org.servlet.assignment.generic.dao.GenericDao;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -19,14 +17,13 @@ import java.util.Map;
 public class CategoryServlet extends GenericServlet<Category> {
 
     private CategoryService categoryService = new CategoryService();
-    private ProductService productService = new ProductService();
 
     public CategoryServlet() {
         super(new CategoryDao());
     }
 
     @Override
-    void processDoGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void processDoGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String uri = req.getRequestURI();
         if (uri.equals("/admin/category/edit")) {
             Long id = Long.parseLong(req.getParameter("id"));

@@ -10,6 +10,6 @@
     GregorianCalendar currentDate = new GregorianCalendar();
     int currentYear = currentDate.get(Calendar.YEAR);
 %>
-<p>&copy; Copyright <%= currentYear %> ThaiNguyen &amp;</p>
+<p class="text-center">&copy; Copyright <%= currentYear %> <a href="https://github.com/thaiNguyen004">ThaiNguyen github</a></p>
 </html>
 

@@ -18,7 +18,7 @@ public class UserDao extends GenericDao<User> implements Dao<User, Long> {
     @Override
     public List<User> findAll(int limit, int offset) {
         Session session = HibernateUtils.getSessionFactory().openSession();
-        Query<User> query = session.createQuery("FROM User where isLocked = false and isDeleted = false", User.class);
+        Query<User> query = session.createQuery("FROM User where isDeleted = false", User.class);
         List<User> users = null;
         try {
             Transaction transaction = session.beginTransaction();
@@ -35,7 +35,7 @@ public class UserDao extends GenericDao<User> implements Dao<User, Long> {
     @Override
     public User findById(Long aLong) {
         Session session = HibernateUtils.getSessionFactory().openSession();
-        Query<User> query = session.createQuery("FROM User u WHERE u.id = :id and isLocked = false and isDeleted = false", User.class);
+        Query<User> query = session.createQuery("FROM User u WHERE u.id = :id and isDeleted = false", User.class);
         query.setParameter("id", aLong);
         User user = null;
         try {
@@ -50,7 +50,7 @@ public class UserDao extends GenericDao<User> implements Dao<User, Long> {
 
     public User findByUsername(String username) {
         Session session = HibernateUtils.getSessionFactory().openSession();
-        Query<User> query = session.createQuery("FROM User u WHERE u.username = :username and isLocked = false and isDeleted = false", User.class);
+        Query<User> query = session.createQuery("FROM User u WHERE u.username = :username and isDeleted = false and lock = false", User.class);
         query.setParameter("username", username);
         User user = null;
         try {
@@ -70,6 +70,66 @@ public class UserDao extends GenericDao<User> implements Dao<User, Long> {
             session.get(User.class, aLong);
             patch.setId(aLong);
             session.save(patch);
+        } catch (Exception ex) {
+            logger.error("an error occurred at " + this.getClass());
+        } finally {
+            session.close();
+        }
+    }
+
+    public void unlockUserById(Long id) {
+        Session session = HibernateUtils.getSessionFactory().openSession();
+        try {
+            Transaction transaction = session.beginTransaction();
+            User user = session.get(User.class, id);
+            user.setLock(false);
+            session.persist(user);
+            transaction.commit();
+        } catch (Exception ex) {
+            logger.error("an error occurred at " + this.getClass());
+        } finally {
+            session.close();
+        }
+    }
+
+    public void lockUserById(Long id) {
+        Session session = HibernateUtils.getSessionFactory().openSession();
+        try {
+            Transaction transaction = session.beginTransaction();
+            User user = session.get(User.class, id);
+            user.setLock(true);
+            session.persist(user);
+            transaction.commit();
+        } catch (Exception ex) {
+            logger.error("an error occurred at " + this.getClass());
+        } finally {
+            session.close();
+        }
+    }
+
+    public void deactivateUserById(Long id) {
+        Session session = HibernateUtils.getSessionFactory().openSession();
+        try {
+            Transaction transaction = session.beginTransaction();
+            User user = session.get(User.class, id);
+            user.setActive(false);
+            session.persist(user);
+            transaction.commit();
+        } catch (Exception ex) {
+            logger.error("an error occurred at " + this.getClass());
+        } finally {
+            session.close();
+        }
+    }
+
+    public void activateUserById(Long id) {
+        Session session = HibernateUtils.getSessionFactory().openSession();
+        try {
+            Transaction transaction = session.beginTransaction();
+            User user = session.get(User.class, id);
+            user.setActive(true);
+            session.persist(user);
+            transaction.commit();
         } catch (Exception ex) {
             logger.error("an error occurred at " + this.getClass());
         } finally {

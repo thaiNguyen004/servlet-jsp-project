@@ -53,6 +53,11 @@
                 <span style="color: red">${violations_product.get('price')}</span>
             </div>
             <div class="form-group">
+                <label>quantity:</label>
+                <input type="text" class="form-control" name="quantity" value="${product.quantity}">
+                <span style="color: red">${violations_product.get('quantity')}</span>
+            </div>
+            <div class="form-group">
                 <label>Category:</label>
                 <select class="form-select" aria-label="Default select example" name="category_id">
                     <c:forEach items="${categories}" var="category">

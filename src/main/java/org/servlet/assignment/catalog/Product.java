@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.servlet.assignment.validation.IntRange;
 import org.servlet.assignment.validation.VietNamDong;
 
 import java.util.ArrayList;
@@ -33,9 +34,13 @@ public class Product {
     @VietNamDong(fieldName = "price", min = 1000, message = "The price must not be null")
     private String price;
 
+    @IntRange(message = "The quantity must not be null", min = 1, max = 1000, fieldName = "quantity")
+    private String quantity;
+
     @ManyToOne
     private Category category;
 
+    @Column(name = "is_deleted")
     private boolean isDeleted = false;
 
     @CreationTimestamp

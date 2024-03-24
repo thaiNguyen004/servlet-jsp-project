@@ -7,10 +7,7 @@ import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 import org.servlet.assignment.catalog.Category;
 import org.servlet.assignment.catalog.Product;
-import org.servlet.assignment.order.LineItem;
-import org.servlet.assignment.order.Order;
-import org.servlet.assignment.order.Payment;
-import org.servlet.assignment.user.Address;
+import org.servlet.assignment.order.*;
 import org.servlet.assignment.user.User;
 
 import java.util.Properties;
@@ -33,10 +30,12 @@ public class HibernateUtils {
         conf.setProperties(properties);
         conf.addAnnotatedClass(Product.class);
         conf.addAnnotatedClass(User.class);
-        conf.addAnnotatedClass(Address.class);
         conf.addAnnotatedClass(Order.class);
+        conf.addAnnotatedClass(CartItem.class);
+        conf.addAnnotatedClass(ShoppingSession.class);
         conf.addAnnotatedClass(LineItem.class);
         conf.addAnnotatedClass(Payment.class);
+        conf.addAnnotatedClass(Discount.class);
         conf.addAnnotatedClass(Category.class);
 
         ServiceRegistry registry = new StandardServiceRegistryBuilder()

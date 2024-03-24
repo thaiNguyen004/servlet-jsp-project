@@ -42,6 +42,11 @@
                     <span style="color: red">${violations_product.get('size')}</span>
                 </div>
                 <div class="form-group">
+                    <label>Quantity:</label>
+                    <input type="number" class="form-control" name="quantity" placeholder="Enter quantity">
+                    <span style="color: red">${violations_product.get('quantity')}</span>
+                </div>
+                <div class="form-group">
                     <label>Price:</label>
                     <input type="number" class="form-control" name="price" placeholder="Enter price, min = 10000">
                     <span style="color: red">${violations_product.get('price')}</span>
@@ -68,6 +73,7 @@
                     <th>ID</th>
                     <th>Name</th>
                     <th>Price</th>
+                    <th>Quantity</th>
                     <th>Size name</th>
                     <td>Created at</td>
                     <td>Updated at</td>
@@ -81,6 +87,7 @@
                         <td>${product.id}</td>
                         <td>${product.name}</td>
                         <td>${product.price}</td>
+                        <td>${product.quantity}</td>
                         <td>${product.size}</td>
                         <td>${product.createdAt}</td>
                         <td>${product.updatedAt}</td>

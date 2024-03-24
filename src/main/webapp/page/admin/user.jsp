@@ -53,7 +53,8 @@
                 <div class="form-group">
                     <label>role:</label>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="role" id="flexRadioDefault1" value="EMPLOYEE">
+                        <input class="form-check-input" type="radio" name="role" id="flexRadioDefault1"
+                               value="EMPLOYEE">
                         <label class="form-check-label" for="flexRadioDefault1">EMPLOYEE</label>
                     </div>
                     <div class="form-check">
@@ -94,26 +95,29 @@
                         <td>${user.email}</td>
                         <td>${user.password}</td>
                         <td>${user.role}</td>
-                        <c:choose>
-                            <c:when test="${user.activeAt ne null}">
-                                <td>${user.activeAt}</td>
-                            </c:when>
-                            <c:otherwise>
-                                <td><span class="badge bg-secondary">NULL</span></td>
-                            </c:otherwise>
-                        </c:choose>
+                        <td>${user.activeAt}</td>
 
-                        <c:choose>
-                            <c:when test="${user.active}">
-                                <td><span class="badge bg-success">Active</span></td>
-                            </c:when>
-                            <c:otherwise>
-                                <td><span class="badge bg-danger">Inactive</span></td>
-                            </c:otherwise>
-                        </c:choose>
+                        <td>
+                            <c:choose>
+                                <c:when test="${user.active}">
+                                    <a href="/admin/user/deactivate?id=${user.id}"
+                                       class="btn btn-secondary">Deactivate</a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="/admin/user/activate?id=${user.id}" class="btn btn-primary">Activate</a>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
                         <td>
                             <a href="/admin/user/edit?id=${user.id}" class="btn btn-warning">Edit</a>
-                            <a href="/admin/user/lock?id=${user.id}" class="btn btn-secondary">Lock</a>
+                            <c:choose>
+                                <c:when test="${user.lock}">
+                                    <a href="/admin/user/unlock?id=${user.id}" class="btn btn-primary">Unlock</a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="/admin/user/lock?id=${user.id}" class="btn btn-secondary">Lock</a>
+                                </c:otherwise>
+                            </c:choose>
                             <a href="/admin/user/delete?id=${user.id}" class="btn btn-danger">Delete</a>
                         </td>
                     </tr>

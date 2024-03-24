@@ -46,9 +46,11 @@ public abstract class GenericUserServlet<T> extends HttpServlet {
             } else {
                 handleErrors(req, resp, violations, entity);
             }
-        } catch (UsernameAlreadyExistException | InvocationTargetException | IllegalAccessException e) {
+        } catch (UsernameAlreadyExistException ex) {
             violations.put("username", "Username already exist");
             handleErrors(req, resp, violations, null);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

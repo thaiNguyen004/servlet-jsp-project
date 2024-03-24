@@ -36,11 +36,11 @@ public class User {
     private String role;
     @Column(name = "active_at")
     private Date activeAt;
-    @Column(name = "is_active")
-    private boolean active;
-    @Column(name = "is_locked")
-    private boolean isLocked;
+    @Column(name = "active")
+    private boolean active = false;
+    @Column(name = "locked")
+    private boolean lock = false;
     @Column(name = "is_deleted")
-    private boolean isDeleted;
+    private boolean isDeleted = false;
 
 }

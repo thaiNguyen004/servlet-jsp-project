@@ -28,6 +28,9 @@ public class Payment {
     @ManyToOne
     private Order order;
 
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     @CreationTimestamp
     @Column(name = "created_at")
     private Date createdAt;

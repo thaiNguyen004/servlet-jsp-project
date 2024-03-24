@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(value = "/admin")
+@WebServlet(name = "admin", value = {"/admin"})
 public class AdminController extends HttpServlet {
 
     @Override

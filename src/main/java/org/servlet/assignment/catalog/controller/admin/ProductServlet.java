@@ -27,7 +27,7 @@ public class ProductServlet extends GenericServlet<Product> {
     }
 
     @Override
-    void processDoGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void processDoGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String uri = req.getRequestURI();
         if (uri.equals("/admin/product/edit")) {
             List<Category> categories = categoryService.findAllCategory(10, 0);
@@ -84,6 +84,7 @@ public class ProductServlet extends GenericServlet<Product> {
         String name = request.getParameter("name");
         String size = request.getParameter("size");
         String price = request.getParameter("price");
+        String quantity = request.getParameter("quantity");
         Category category = null;
         if (request.getParameter("category_id") != null) {
             category = categoryService.findById(Long.parseLong(request.getParameter("category_id")));
@@ -94,6 +95,7 @@ public class ProductServlet extends GenericServlet<Product> {
                 .name(name)
                 .size(size)
                 .price(price)
+                .quantity(quantity)
                 .category(category)
                 .build();
     }
