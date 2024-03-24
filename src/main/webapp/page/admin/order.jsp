@@ -59,9 +59,7 @@
                             </c:forEach>
                         </td>
                         <td>
-                            <c:forEach items="${order.payments}" var="payment">
-                                <p><a href="/admin/view/payment?id=${payment.id}">${payment.amount}</a> x ${payment.method}</p>
-                            </c:forEach>
+                            <p><a href="/admin/view/payment?id=${order.payment.id}">${order.payment.amount}</a> x ${order.payment.method}</p>
                         </td>
                         <td>${order.totalPrice}</td>
                         <td>${order.discount.id}</td>

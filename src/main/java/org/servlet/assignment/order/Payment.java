@@ -25,7 +25,13 @@ public class Payment {
     @Enumerated(EnumType.STRING)
     private Method method;
     private Integer amount;
-    @ManyToOne
+    @OneToOne(
+            fetch = FetchType.LAZY,
+            optional = false,
+            cascade = CascadeType.PERSIST
+    )
+    @JoinColumn
+    @NotNull(message = "Payment is required")
     private Order order;
 
     @Enumerated(EnumType.STRING)

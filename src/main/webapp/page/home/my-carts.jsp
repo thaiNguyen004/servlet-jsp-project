@@ -1,5 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="org.servlet.assignment.user.User" %><%--
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %><%--
   Created by IntelliJ IDEA.
   User: nguye
   Date: 24/03/2024
@@ -30,36 +29,39 @@
 
 <h3>Cart</h3>
 <div class="col-md-6">
-    <h2>Data Table</h2>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Product name</th>
-            <th>Product size</th>
-            <th>Product price</th>
-            <th>Product category</th>
-            <th>Quantity</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${cartItems}" var="cart_item">
+    <form action="/order/place" method="post">
+        <table class="table table-striped">
+            <thead>
             <tr>
-                <td>${cart_item.id}</td>
-                <td><a href="/product/detail-info?id=${cart_item.product.id}">
-                        ${cart_item.product.name}
-                </a></td>
-                <td>${cart_item.product.size}</td>
-                <td>${cart_item.product.price}</td>
-                <td><a href="/home/category?id=${cart_item.product.category.id}">
-                        ${cart_item.product.category.name}
-                </a></td>
-                <td>${cart_item.quantity}</td>
+                <th>Pick</th>
+                <th>Product name</th>
+                <th>Product size</th>
+                <th>Product price</th>
+                <th>Product category</th>
+                <th>Quantity</th>
             </tr>
-        </c:forEach>
-        <!-- Add more rows here for dynamic data -->
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            <c:forEach items="${cartItems}" var="cart_item">
+                <tr>
+                    <td><input type="checkbox" name="pickedProducts" value="${cart_item.product.id}"></td>
+                    <td><a href="/product/detail-info?id=${cart_item.product.id}">
+                            ${cart_item.product.name}
+                    </a></td>
+                    <td>${cart_item.product.size}</td>
+                    <td>${cart_item.product.price}</td>
+                    <td><a href="/home/category?id=${cart_item.product.category.id}">
+                            ${cart_item.product.category.name}
+                    </a></td>
+                    <td>
+                        <input type="number" name="quantity_${cart_item.product.id}" value="${cart_item.quantity}" min="1">
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+        <button type="submit">Place Order</button>
+    </form>
 </div>
 
 <footer>

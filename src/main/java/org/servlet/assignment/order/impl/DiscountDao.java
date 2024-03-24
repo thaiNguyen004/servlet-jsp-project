@@ -11,7 +11,9 @@ import org.servlet.assignment.order.Order;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public class DiscountDao extends GenericDao<Discount> implements Dao<Discount, Long> {
 
@@ -47,6 +49,23 @@ public class DiscountDao extends GenericDao<Discount> implements Dao<Discount, L
             session.close();
         }
         return orders;
+    }
+
+    public Discount checkDiscountAvailable(Long discountId) {
+        Session session = HibernateUtils.getSessionFactory().openSession();
+        Query<Discount> query = session.createQuery("FROM Discount c WHERE c.id = :id and c.isDeleted = false", Discount.class);
+        query.setParameter("id", discountId);
+        Discount discount = null;
+        try {
+            Transaction transaction = session.beginTransaction();
+            discount = query.getSingleResult();
+            transaction.commit();
+        } catch (Exception e) {
+            logger.error("an error occurred at " + this.getClass());
+        } finally {
+            session.close();
+        }
+        return Optional.ofNullable(discount).filter(d -> d.getEnd().isAfter(LocalDateTime.now())).orElse(null);
     }
 
 

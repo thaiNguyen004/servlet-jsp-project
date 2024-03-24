@@ -36,6 +36,12 @@
                         </li>
                     </c:otherwise>
                 </c:choose>
+                <li class="nav-item p-1">
+                    <a class="btn btn-secondary" href="/my-cart">My cart</a>
+                </li>
+                <li class="nav-item p-1">
+                    <a class="btn btn-secondary" href="/my-order">My order</a>
+                </li>
             </ul>
         </div>
     </div>

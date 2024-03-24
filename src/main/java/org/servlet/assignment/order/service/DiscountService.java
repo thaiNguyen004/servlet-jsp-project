@@ -9,22 +9,26 @@ import java.util.List;
 
 public class DiscountService {
 
-    private final DiscountDao productDao = new DiscountDao();
+    private final DiscountDao discountDao = new DiscountDao();
     private final CategoryService categoryService = new CategoryService();
 
     public List<Discount> findAllDiscounts(int limit, int offset) {
-        return productDao.findAll(limit, offset);
+        return discountDao.findAll(limit, offset);
     }
 
     public Discount findById(Long id) {
-        return productDao.findById(id);
+        return discountDao.findById(id);
     }
 
     public void deleteById(Long id) {
-        productDao.deleteById(id);
+        discountDao.deleteById(id);
     }
 
     public List<Order> findOrdersByDiscountId(Long id) {
-        return productDao.findOrdersByDiscountId(id);
+        return discountDao.findOrdersByDiscountId(id);
+    }
+
+    public Discount checkDiscountAvailable(Long discountId) {
+        return discountDao.checkDiscountAvailable(discountId);
     }
 }

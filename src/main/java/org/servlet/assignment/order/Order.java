@@ -2,6 +2,7 @@ package org.servlet.assignment.order;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.servlet.assignment.user.User;
@@ -27,8 +28,8 @@ public class Order {
     @Column(name = "line_items")
     private List<LineItem> lineItems = new ArrayList<>();
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-    private List<Payment> payments = new ArrayList<>();
+    @OneToOne(mappedBy = "order")
+    private Payment payment;
 
     @Column(name = "total_price")
     private Integer totalPrice;
